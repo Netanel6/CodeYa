@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CodeYa</string>
+    <string name="title_activity_main_screen">MainScreen</string>
+    <string name="persona_text">פרסונה</string>
+    <string name="first_number_text">מספר ראשון</string>
+    <string name="excess_text">עודף</string>
+    <string name="lack_text">חוסר</string>
+    <string name="balanced_text">מאוזן</string>
+    <string name="seconde_number_text">מספר שני</string>
+    <string name="third_number_text">מספר שלישי</string>
 </resources>
