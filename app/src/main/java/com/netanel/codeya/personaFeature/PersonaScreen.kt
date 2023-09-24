@@ -1,6 +1,5 @@
 package com.netanel.codeya.personaFeature
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,6 +35,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -79,12 +79,8 @@ fun DesignedTextField(
                 }
             }
             .fillMaxWidth()
-            .background(
-                color = Color.White,
-                shape = RectangleShape
-            )
             .border(
-                width = 1.dp,
+                width = .5.dp,
                 color = borderColor,
                 shape = RectangleShape
             )
@@ -155,7 +151,8 @@ fun ThreeTextFieldsWithCheckboxes() {
             onValueChange = { firstPersonaNumber = it },
             label = stringResource(R.string.first_number_text),
             keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Number
             ),
             keyboardActions = KeyboardActions(
                 onNext = { focusRequester2.requestFocus() }
@@ -200,8 +197,10 @@ fun ThreeTextFieldsWithCheckboxes() {
             onValueChange = { secondPersonaNumber = it },
             label = stringResource(R.string.seconde_number_text),
             keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Next
-            ),
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Number
+
+                ),
             keyboardActions = KeyboardActions(
                 onNext = { focusRequester3.requestFocus() }
             ),
@@ -245,7 +244,8 @@ fun ThreeTextFieldsWithCheckboxes() {
             onValueChange = { thirdPersonaNumber = it },
             label = stringResource(R.string.third_number_text),
             keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Number
             ),
             keyboardActions = KeyboardActions(
                 onDone = { }
