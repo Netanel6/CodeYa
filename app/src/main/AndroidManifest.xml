@@ -13,11 +13,6 @@
         android:theme="@style/Theme.CodeYa"
         tools:targetApi="31">
         <activity
-            android:name=".personaFeature.MainScreen"
-            android:exported="false"
-            android:label="@string/title_activity_main_screen"
-            android:theme="@style/Theme.CodeYa" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
