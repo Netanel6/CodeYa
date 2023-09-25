@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -48,67 +49,6 @@ import com.netanel.codeya.personaFeature.PersonaKind.*
  * Created by netanelamar on 24/09/2023.
  * NetanelCA2@gmail.com
  */
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DesignedTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    modifier: Modifier = Modifier,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    focusRequester: FocusRequester? = null
-) {
-    var borderColor by remember { mutableStateOf(Color.Gray) }
-
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(label) },
-        singleLine = true,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        modifier = modifier
-            .focusRequester(focusRequester ?: FocusRequester())
-            .onFocusChanged { state ->
-                borderColor = if (state.isFocused) {
-                    Color.Green
-                } else {
-                    Color.Red
-                }
-            }
-            .fillMaxWidth()
-            .border(
-                width = .5.dp,
-                color = borderColor,
-                shape = RectangleShape
-            )
-    )
-}
-
-
-@Composable
-fun SingleCheckboxRow(
-    label: String,
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    Row(
-        modifier = Modifier.wrapContentSize(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = label,
-            fontSize = 16.sp
-        )
-        Checkbox(
-            checked = isChecked,
-            onCheckedChange = onCheckedChange
-        )
-    }
-}
 
 @Composable
 fun ThreeTextFieldsWithCheckboxes() {
@@ -200,7 +140,7 @@ fun ThreeTextFieldsWithCheckboxes() {
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Number
 
-                ),
+            ),
             keyboardActions = KeyboardActions(
                 onNext = { focusRequester3.requestFocus() }
             ),
@@ -282,11 +222,80 @@ fun ThreeTextFieldsWithCheckboxes() {
                 }
             )
         }
+        Spacer(modifier = Modifier.height(28.dp))
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            enabled = firstPersonaNumber != "" && secondPersonaNumber != "" && thirdPersonaNumber != "" /*Move logic to viewModel*/,
+            onClick = { /*ViewModel logic here - catch all fields*/ }) {
+            Text(stringResource(R.string.persona_calculate_text))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DesignedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    focusRequester: FocusRequester? = null
+) {
+    var borderColor by remember { mutableStateOf(Color.Gray) }
+
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        singleLine = true,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        modifier = modifier
+            .focusRequester(focusRequester ?: FocusRequester())
+            .onFocusChanged { state ->
+                borderColor = if (state.isFocused) {
+                    Color.Green
+                } else {
+                    Color.Red
+                }
+            }
+            .fillMaxWidth()
+            .border(
+                width = .5.dp,
+                color = borderColor,
+                shape = RectangleShape
+            )
+    )
+}
+
+
+@Composable
+fun SingleCheckboxRow(
+    label: String,
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier.wrapContentSize(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = label,
+            fontSize = 16.sp
+        )
+        Checkbox(
+            checked = isChecked,
+            onCheckedChange = onCheckedChange
+        )
     }
 }
 
 @Composable
-fun MainScreen() {
+fun PersonaScreen() {
     ThreeTextFieldsWithCheckboxes()
 }
 
@@ -294,7 +303,7 @@ fun MainScreen() {
 @Composable
 fun PreviewMainScreen() {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-        MainScreen()
+        PersonaScreen()
     }
 }
 

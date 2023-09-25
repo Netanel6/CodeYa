@@ -8,4 +8,5 @@
     <string name="balanced_text">מאוזן</string>
     <string name="seconde_number_text">מספר שני</string>
     <string name="third_number_text">מספר שלישי</string>
+    <string name="persona_calculate_text">חישוב פרסונה</string>
 </resources>

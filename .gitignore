@@ -17,3 +17,5 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 .idea/modules/app/CodeYa.app.iml
+.idea/gradle.xml
+.idea/misc.xml
