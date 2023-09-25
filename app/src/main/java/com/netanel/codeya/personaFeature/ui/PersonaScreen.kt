@@ -1,4 +1,4 @@
-package com.netanel.codeya.personaFeature
+package com.netanel.codeya.personaFeature.ui
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -41,8 +41,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.netanel.codeya.R
-import com.netanel.codeya.personaFeature.PersonaKind.*
+import com.netanel.codeya.personaFeature.ui.PersonaKind.*
 
 
 /**
@@ -51,7 +52,7 @@ import com.netanel.codeya.personaFeature.PersonaKind.*
  */
 
 @Composable
-fun ThreeTextFieldsWithCheckboxes() {
+fun ThreeTextFieldsWithCheckboxes(navController: NavController) {
 
     val scrollState = rememberScrollState()
 
@@ -295,15 +296,15 @@ fun SingleCheckboxRow(
 }
 
 @Composable
-fun PersonaScreen() {
-    ThreeTextFieldsWithCheckboxes()
+fun PersonaScreen(navController: NavController) {
+    ThreeTextFieldsWithCheckboxes(navController)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainScreen() {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-        PersonaScreen()
+        /*PersonaScreen()*/
     }
 }
 

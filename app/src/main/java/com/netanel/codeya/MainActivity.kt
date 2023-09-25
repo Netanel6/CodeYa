@@ -10,7 +10,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.netanel.codeya.personaFeature.PersonaScreen
 
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
@@ -20,7 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val scaffoldState = rememberScaffoldState()
             Scaffold(backgroundColor = Color.Transparent, scaffoldState = scaffoldState, modifier = Modifier.systemBarsPadding()) {
-                PersonaScreen()
+                Navigation()
             }
         }
     }
