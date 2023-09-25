@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.netanel.codeya.R
 import com.netanel.codeya.personaFeature.ui.PersonaKind.*
@@ -52,7 +53,7 @@ import com.netanel.codeya.personaFeature.ui.PersonaKind.*
  */
 
 @Composable
-fun ThreeTextFieldsWithCheckboxes(navController: NavController) {
+fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: PersonaScreenViewModel) {
 
     val scrollState = rememberScrollState()
 
@@ -228,7 +229,7 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController) {
         Button(
             modifier = Modifier.fillMaxWidth(),
             enabled = firstPersonaNumber != "" && secondPersonaNumber != "" && thirdPersonaNumber != "" /*Move logic to viewModel*/,
-            onClick = { /*ViewModel logic here - catch all fields*/ }) {
+            onClick = { /*ViewModel logic here - catch all fields*/ viewModel }) {
             Text(stringResource(R.string.persona_calculate_text))
         }
     }
@@ -296,8 +297,11 @@ fun SingleCheckboxRow(
 }
 
 @Composable
-fun PersonaScreen(navController: NavController) {
-    ThreeTextFieldsWithCheckboxes(navController)
+fun PersonaScreen(
+    navController: NavController,
+    viewModel: PersonaScreenViewModel = hiltViewModel()
+) {
+    ThreeTextFieldsWithCheckboxes(navController, viewModel)
 }
 
 @Preview(showBackground = true)
