@@ -307,7 +307,7 @@ fun PersonaScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainScreen() {
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl,) {
         /*PersonaScreen()*/
     }
 }
