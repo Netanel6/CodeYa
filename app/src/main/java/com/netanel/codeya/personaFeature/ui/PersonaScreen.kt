@@ -237,7 +237,6 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
                     PersonaNumberProperties(secondPersonaNumberOption, secondPersonaNumber)
                 viewModel.thirdPersonaNumber =
                     PersonaNumberProperties(thirdPersonaNumberOption, thirdPersonaNumber)
-                viewModel.getData()
             }) {
             Text(stringResource(R.string.persona_calculate_text))
         }

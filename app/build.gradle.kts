@@ -1,8 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    kotlin("kapt")
 }
 
 android {
@@ -58,6 +60,7 @@ kapt {
 }
 
 dependencies {
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -69,6 +72,11 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.1")
     implementation("androidx.compose.material:material-icons-extended:1.5.1")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+
+    // Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
 
     // Jetpack navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
