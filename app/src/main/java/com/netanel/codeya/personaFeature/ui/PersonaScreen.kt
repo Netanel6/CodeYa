@@ -22,7 +22,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.netanel.codeya.PersonaNumberProperties
 import com.netanel.codeya.R
 import com.netanel.codeya.personaFeature.ui.PersonaKind.*
 
@@ -65,9 +65,9 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
     var secondPersonaNumber by remember { mutableStateOf("") }
     var thirdPersonaNumber by remember { mutableStateOf("") }
 
-    var firstPersonaNumberOption by remember { mutableIntStateOf(0) }
-    var secondPersonaNumberOption by remember { mutableIntStateOf(0) }
-    var thirdPersonaNumberOption by remember { mutableIntStateOf(0) }
+    var firstPersonaNumberOption by remember { mutableStateOf(None) }
+    var secondPersonaNumberOption by remember { mutableStateOf(None) }
+    var thirdPersonaNumberOption by remember { mutableStateOf(None) }
 
     Column(
         modifier = Modifier
@@ -90,7 +90,8 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
 
         DesignedTextField(
             value = firstPersonaNumber,
-            onValueChange = { firstPersonaNumber = it },
+            onValueChange = {
+                firstPersonaNumber = it },
             label = stringResource(R.string.first_number_text),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next,
@@ -109,25 +110,25 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
         ) {
             SingleCheckboxRow(
                 label = stringResource(R.string.excess_text),
-                isChecked = firstPersonaNumberOption == Excess.value,
+                isChecked = firstPersonaNumberOption == Excess,
                 onCheckedChange = { isChecked ->
-                    firstPersonaNumberOption = if (isChecked) Excess.value else None.value
+                    firstPersonaNumberOption = if (isChecked) Excess else None
                 }
             )
 
             SingleCheckboxRow(
                 label = stringResource(R.string.lack_text),
-                isChecked = firstPersonaNumberOption == Lack.value,
+                isChecked = firstPersonaNumberOption == Lack,
                 onCheckedChange = { isChecked ->
-                    firstPersonaNumberOption = if (isChecked) Lack.value else None.value
+                    firstPersonaNumberOption = if (isChecked) Lack else None
                 }
             )
 
             SingleCheckboxRow(
                 label = stringResource(R.string.balanced_text),
-                isChecked = firstPersonaNumberOption == Balanced.value,
+                isChecked = firstPersonaNumberOption == Balanced,
                 onCheckedChange = { isChecked ->
-                    firstPersonaNumberOption = if (isChecked) Balanced.value else None.value
+                    firstPersonaNumberOption = if (isChecked) Balanced else None
                 }
             )
         }
@@ -156,25 +157,25 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
         ) {
             SingleCheckboxRow(
                 label = stringResource(R.string.excess_text),
-                isChecked = secondPersonaNumberOption == Excess.value,
+                isChecked = secondPersonaNumberOption == Excess,
                 onCheckedChange = { isChecked ->
-                    secondPersonaNumberOption = if (isChecked) Excess.value else None.value
+                    secondPersonaNumberOption = if (isChecked) Excess else None
                 }
             )
 
             SingleCheckboxRow(
                 label = stringResource(R.string.lack_text),
-                isChecked = secondPersonaNumberOption == Lack.value,
+                isChecked = secondPersonaNumberOption == Lack,
                 onCheckedChange = { isChecked ->
-                    secondPersonaNumberOption = if (isChecked) Lack.value else None.value
+                    secondPersonaNumberOption = if (isChecked) Lack else None
                 }
             )
 
             SingleCheckboxRow(
                 label = stringResource(R.string.balanced_text),
-                isChecked = secondPersonaNumberOption == Balanced.value,
+                isChecked = secondPersonaNumberOption == Balanced,
                 onCheckedChange = { isChecked ->
-                    secondPersonaNumberOption = if (isChecked) Balanced.value else None.value
+                    secondPersonaNumberOption = if (isChecked) Balanced else None
                 }
             )
         }
@@ -202,25 +203,25 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
         ) {
             SingleCheckboxRow(
                 label = stringResource(R.string.excess_text),
-                isChecked = thirdPersonaNumberOption == Excess.value,
+                isChecked = thirdPersonaNumberOption == Excess,
                 onCheckedChange = { isChecked ->
-                    thirdPersonaNumberOption = if (isChecked) Excess.value else None.value
+                    thirdPersonaNumberOption = if (isChecked) Excess else None
                 }
             )
 
             SingleCheckboxRow(
                 label = stringResource(R.string.lack_text),
-                isChecked = thirdPersonaNumberOption == Lack.value,
+                isChecked = thirdPersonaNumberOption == Lack,
                 onCheckedChange = { isChecked ->
-                    thirdPersonaNumberOption = if (isChecked) Lack.value else None.value
+                    thirdPersonaNumberOption = if (isChecked) Lack else None
                 }
             )
 
             SingleCheckboxRow(
                 label = stringResource(R.string.balanced_text),
-                isChecked = thirdPersonaNumberOption == Balanced.value,
+                isChecked = thirdPersonaNumberOption == Balanced,
                 onCheckedChange = { isChecked ->
-                    thirdPersonaNumberOption = if (isChecked) Balanced.value else None.value
+                    thirdPersonaNumberOption = if (isChecked) Balanced else None
                 }
             )
         }
@@ -228,8 +229,16 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = firstPersonaNumber != "" && secondPersonaNumber != "" && thirdPersonaNumber != "" /*Move logic to viewModel*/,
-            onClick = { /*ViewModel logic here - catch all fields*/ viewModel }) {
+            enabled = firstPersonaNumber != "" && secondPersonaNumber != "" && thirdPersonaNumber != "",
+            onClick = {
+                viewModel.firstPersonaNumber =
+                    PersonaNumberProperties(firstPersonaNumberOption, firstPersonaNumber)
+                viewModel.secondPersonaNumber =
+                    PersonaNumberProperties(secondPersonaNumberOption, secondPersonaNumber)
+                viewModel.thirdPersonaNumber =
+                    PersonaNumberProperties(thirdPersonaNumberOption, thirdPersonaNumber)
+                viewModel.getData()
+            }) {
             Text(stringResource(R.string.persona_calculate_text))
         }
     }
@@ -316,6 +325,5 @@ enum class PersonaKind(val value: Int) {
     None(0),
     Excess(1),
     Lack(2),
-    Balanced(3)
-
+    Balanced(3);
 }
