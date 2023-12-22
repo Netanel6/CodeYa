@@ -77,6 +77,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-storage")
+
 
     // Jetpack navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")

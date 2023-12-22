@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import com.netanel.codeya.ui.theme.CodeYaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalMaterial3Api
@@ -28,16 +29,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 fun MyApp() {
-    CompositionLocalProvider(
-        LocalLayoutDirection provides LayoutDirection.Rtl
-    ) {
-        val scaffoldState = rememberScaffoldState()
-        Scaffold(backgroundColor = Color.Transparent, scaffoldState = scaffoldState, modifier = Modifier.systemBarsPadding()) {
-            Navigation()
+    CodeYaTheme {
+        CompositionLocalProvider(
+            LocalLayoutDirection provides LayoutDirection.Rtl
+        ) {
+            val scaffoldState = rememberScaffoldState()
+            Scaffold(backgroundColor = Color.Transparent, scaffoldState = scaffoldState, modifier = Modifier.systemBarsPadding()) {
+                Navigation()
+            }
         }
     }
 }

@@ -1,7 +1,10 @@
 package com.netanel.codeya.personaFeature.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.netanel.codeya.PersonaNumberProperties
+import com.netanel.codeya.network.StorageCallback
+import com.netanel.codeya.personaFeature.model.PersonaNumberProperties
+import com.netanel.codeya.personaFeature.repository.PersonaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,6 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonaScreenViewModel @Inject constructor() : ViewModel() {
+    private val repository = PersonaRepository()
+
     private val _firstPersonaNumber: PersonaNumberProperties by lazy { firstPersonaNumber }
     var firstPersonaNumber: PersonaNumberProperties = PersonaNumberProperties()
     private val _secondPersonaNumber: PersonaNumberProperties by lazy { secondPersonaNumber }
@@ -21,33 +26,17 @@ class PersonaScreenViewModel @Inject constructor() : ViewModel() {
     var thirdPersonaNumber: PersonaNumberProperties = PersonaNumberProperties()
 
 
-    // TODO: Send data to storage and retrieve it here and move to the next page with the text or texts from storage
+    init {
+        repository.downloadFile(
+            "BalancedOne.txt",
+            object : StorageCallback {
+                override fun onSuccess(fileContent: String?) {
+                    Log.i("Netanel", fileContent.toString())
+                }
 
-/*import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.FileDownloadTask;
-import java.io.File;
-import java.io.IOException;
-
-// ...
-
-// Initialize Firebase Storage
-FirebaseStorage storage = FirebaseStorage.getInstance();
-
-// Reference to the file you want to download
-StorageReference storageRef = storage.getReference().child("path/to/your/file.jpg");
-
-// Create a local file to save the downloaded file
-File localFile = new File(getApplicationContext().getFilesDir(), "downloaded_file.jpg");
-
-// Download the file into the local file
-storageRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
-    // File successfully downloaded
-    // You can now use the localFile for further processing
-}).addOnFailureListener(exception -> {
-    // Handle any errors that may occur during the download
-    exception.printStackTrace();
-});*/
-
-
+                override fun onFailure(message: String?) {
+                    Log.i("Netanel", "onFailure: ${message.toString()}")
+                }
+            })
+    }
 }

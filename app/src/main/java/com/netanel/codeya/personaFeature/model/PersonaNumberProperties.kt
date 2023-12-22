@@ -1,4 +1,4 @@
-package com.netanel.codeya
+package com.netanel.codeya.personaFeature.model
 
 import com.netanel.codeya.personaFeature.ui.PersonaKind
 
@@ -7,7 +7,7 @@ import com.netanel.codeya.personaFeature.ui.PersonaKind
  * Created by netanelamar on 18/12/2023.
  * NetanelCA2@gmail.com
  */
-data class PersonaNumberProperties(
+class PersonaNumberProperties(
     val personaKind: PersonaKind = PersonaKind.None,
-    var personaValue: String = "0"
+    var personaValue: String? = null
 )

@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.netanel.codeya.PersonaNumberProperties
+import com.netanel.codeya.personaFeature.model.PersonaNumberProperties
 import com.netanel.codeya.R
 import com.netanel.codeya.personaFeature.ui.PersonaKind.*
 
