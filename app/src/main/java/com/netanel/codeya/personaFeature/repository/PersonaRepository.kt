@@ -17,24 +17,25 @@ class PersonaRepository : IPersonaRepository {
     private var storage: FirebaseStorage? = null
     private var storageRef: StorageReference? = null
 
-    override fun uploadFile(fileUri: Uri, storagePath: String, callback: StorageCallback?) {
+    override suspend fun uploadFile(fileUri: Uri, storagePath: String, callback: StorageCallback?) {
         val fileRef = storageRef?.child(storagePath)
         fileRef?.putFile(fileUri)
-            ?.addOnSuccessListener { taskSnapshot: UploadTask.TaskSnapshot? -> callback?.onSuccess(null) }
+            ?.addOnSuccessListener { taskSnapshot: UploadTask.TaskSnapshot? ->
+                callback?.onSuccess(
+                    result = null
+                )
+            }
             ?.addOnFailureListener { e: Exception -> callback?.onFailure(e.message) }
-
     }
 
-    override fun downloadFile(storagePath: String, callback: StorageCallback?) {
-        val fileRef = storageRef!!.child(storagePath)
-
-        fileRef.getBytes(Long.MAX_VALUE)
-            .addOnSuccessListener { bytes: ByteArray? ->
+    override suspend fun downloadFile(storagePath: String, callback: StorageCallback?) {
+        val fileRef = storageRef?.child(storagePath)
+        fileRef?.getBytes(Long.MAX_VALUE)
+            ?.addOnSuccessListener { bytes: ByteArray? ->
                 val fileContent = String(bytes!!, StandardCharsets.UTF_8)
-                callback!!.onSuccess(fileContent)
+                callback?.onSuccess(fileContent)
             }
-            .addOnFailureListener { e: java.lang.Exception -> callback!!.onFailure(e.message) }
-
+            ?.addOnFailureListener { e: Exception -> callback?.onFailure(e.message) }
     }
 
     override val appRepository: FirebaseStorage
@@ -44,15 +45,10 @@ class PersonaRepository : IPersonaRepository {
         storage = appRepository
         storageRef = storage?.reference
     }
-
-
 }
 
 
 interface IPersonaRepository : IAppRepository {
-    fun uploadFile(fileUri: Uri, storagePath: String, callback: StorageCallback?)
-    fun downloadFile(
-        storagePath: String,
-        callback: StorageCallback?
-    )
+    suspend fun uploadFile(fileUri: Uri, storagePath: String, callback: StorageCallback?)
+    suspend fun downloadFile(storagePath: String, callback: StorageCallback?)
 }

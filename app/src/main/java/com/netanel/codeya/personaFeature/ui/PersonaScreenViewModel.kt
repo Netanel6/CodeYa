@@ -1,11 +1,14 @@
 package com.netanel.codeya.personaFeature.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.netanel.codeya.network.StorageCallback
 import com.netanel.codeya.personaFeature.model.PersonaNumberProperties
 import com.netanel.codeya.personaFeature.repository.PersonaRepository
+import com.netanel.codeya.utils.Logger
+import com.netanel.codeya.utils.digitToWord
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -18,25 +21,22 @@ import javax.inject.Inject
 class PersonaScreenViewModel @Inject constructor() : ViewModel() {
     private val repository = PersonaRepository()
 
-    private val _firstPersonaNumber: PersonaNumberProperties by lazy { firstPersonaNumber }
-    var firstPersonaNumber: PersonaNumberProperties = PersonaNumberProperties()
-    private val _secondPersonaNumber: PersonaNumberProperties by lazy { secondPersonaNumber }
-    var secondPersonaNumber: PersonaNumberProperties = PersonaNumberProperties()
-    private val _thirdPersonaNumber: PersonaNumberProperties by lazy { thirdPersonaNumber }
-    var thirdPersonaNumber: PersonaNumberProperties = PersonaNumberProperties()
+    private val _personaPropertiesList: List<PersonaNumberProperties> by lazy { personaPropertiesList }
+    var personaPropertiesList: List<PersonaNumberProperties> = ArrayList()
 
+    fun downloadContent() {
+        viewModelScope.launch {
+            for (persona in _personaPropertiesList) {
+                repository.downloadFile(persona.personaKind.name.plus(persona.personaValue?.digitToWord().toString().plus(".txt")), object: StorageCallback {
+                    override fun onSuccess(result: String?) {
+                        Logger.info("Netanel", "onSuccess: $result")
+                    }
 
-    init {
-        repository.downloadFile(
-            "BalancedOne.txt",
-            object : StorageCallback {
-                override fun onSuccess(fileContent: String?) {
-                    Log.i("Netanel", fileContent.toString())
-                }
-
-                override fun onFailure(message: String?) {
-                    Log.i("Netanel", "onFailure: ${message.toString()}")
-                }
-            })
+                    override fun onFailure(message: String?) {
+                        Logger.info("Netanel", "onFailure: $message")
+                    }
+                })
+            }
+        }
     }
 }

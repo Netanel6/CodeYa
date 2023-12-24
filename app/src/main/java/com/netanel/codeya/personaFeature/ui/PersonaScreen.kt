@@ -42,10 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.netanel.codeya.personaFeature.model.PersonaNumberProperties
 import com.netanel.codeya.R
+import com.netanel.codeya.personaFeature.model.PersonaNumberProperties
 import com.netanel.codeya.personaFeature.ui.PersonaKind.*
-
 
 /**
  * Created by netanelamar on 24/09/2023.
@@ -69,6 +68,8 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
     var secondPersonaNumberOption by remember { mutableStateOf(None) }
     var thirdPersonaNumberOption by remember { mutableStateOf(None) }
 
+    var listOfPersonaProperties = ArrayList<PersonaNumberProperties>()
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -91,7 +92,8 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
         DesignedTextField(
             value = firstPersonaNumber,
             onValueChange = {
-                firstPersonaNumber = it },
+                firstPersonaNumber = it
+                            },
             label = stringResource(R.string.first_number_text),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next,
@@ -231,12 +233,12 @@ fun ThreeTextFieldsWithCheckboxes(navController: NavController, viewModel: Perso
             modifier = Modifier.fillMaxWidth(),
             enabled = firstPersonaNumber != "" && secondPersonaNumber != "" && thirdPersonaNumber != "",
             onClick = {
-                viewModel.firstPersonaNumber =
-                    PersonaNumberProperties(firstPersonaNumberOption, firstPersonaNumber)
-                viewModel.secondPersonaNumber =
-                    PersonaNumberProperties(secondPersonaNumberOption, secondPersonaNumber)
-                viewModel.thirdPersonaNumber =
-                    PersonaNumberProperties(thirdPersonaNumberOption, thirdPersonaNumber)
+                listOfPersonaProperties.add(PersonaNumberProperties(firstPersonaNumberOption, firstPersonaNumber))
+                listOfPersonaProperties.add(PersonaNumberProperties(secondPersonaNumberOption, secondPersonaNumber))
+                listOfPersonaProperties.add(PersonaNumberProperties(thirdPersonaNumberOption, thirdPersonaNumber))
+                viewModel.personaPropertiesList = listOfPersonaProperties
+                viewModel.downloadContent()
+                listOfPersonaProperties = ArrayList()
             }) {
             Text(stringResource(R.string.persona_calculate_text))
         }
@@ -264,9 +266,10 @@ fun DesignedTextField(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         modifier = modifier
+            .padding(4.dp)
             .focusRequester(focusRequester ?: FocusRequester())
             .onFocusChanged { state ->
-                borderColor = if (state.isFocused) {
+                borderColor = if (state.isFocused || value.isNotEmpty()) {
                     Color.Green
                 } else {
                     Color.Red
@@ -274,7 +277,7 @@ fun DesignedTextField(
             }
             .fillMaxWidth()
             .border(
-                width = .5.dp,
+                width = .8.dp,
                 color = borderColor,
                 shape = RectangleShape
             )
