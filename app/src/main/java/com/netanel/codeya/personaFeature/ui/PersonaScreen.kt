@@ -44,7 +44,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.netanel.codeya.R
 import com.netanel.codeya.personaFeature.model.PersonaNumberProperties
-import com.netanel.codeya.personaFeature.ui.PersonaKind.*
+import com.netanel.codeya.personaFeature.ui.PersonaKind.Balanced
+import com.netanel.codeya.personaFeature.ui.PersonaKind.Excess
+import com.netanel.codeya.personaFeature.ui.PersonaKind.Lack
+import com.netanel.codeya.personaFeature.ui.PersonaKind.None
 
 /**
  * Created by netanelamar on 24/09/2023.
@@ -318,7 +321,7 @@ fun PersonaScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainScreen() {
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl,) {
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         /*PersonaScreen()*/
     }
 }
